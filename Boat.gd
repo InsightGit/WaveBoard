@@ -42,9 +42,16 @@ func _on_Area2D_body_entered(body : TileMap):
 	if body == null:
 		return
 	
-	for x in range(0, $CollisionShape2D.shape.extents.x * 2, 64):
-		for y in range(0, $CollisionShape2D.shape.extents.y * 2, 64):
-			var tile_pos : Vector2 = body.world_to_map(position + Vector2(x, y))
+	print("REEEEEEEEEEEEEEEEEE:" + str($CollisionShape2D.shape.extents * 2 * scale))
+	
+	for x in range(0, $CollisionShape2D.shape.extents.x * 2 * scale.x, 64):
+		for y in range(0, $CollisionShape2D.shape.extents.y * 2 * scale.y, 64):
+			var tile_pos : Vector2 = body.world_to_map(global_position)
+			
+			tile_pos += Vector2(x, y) / Vector2(64, 64)
+			tile_pos -= Vector2(3, 0)
+			
+			print(str(tile_pos))
 			
 			var current_tile : int = body.get_cellv(tile_pos)
 			

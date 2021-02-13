@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://VisualAid.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/wavetile.png" type="Texture" id=2]
@@ -76,6 +76,12 @@ points = PoolVector2Array( 128, 48.3358, 0, 48.3358, 0, 0, 128, 0 )
 size = 30
 font_data = ExtResource( 6 )
 
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 28.5, 414 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 23, 164 )
+
 [node name="GameScene" type="Node2D"]
 script = ExtResource( 5 )
 
@@ -126,7 +132,36 @@ __meta__ = {
 }
 
 [node name="Boat" parent="ControlArea" instance=ExtResource( 7 )]
-position = Vector2( 375, 100 )
+position = Vector2( 374, 100 )
 scale = Vector2( 0.5, 0.5 )
-collision_layer = 1024
-collision_mask = 2147484672
+collision_layer = 2147483649
+collision_mask = 2147483649
+
+[node name="Up" type="StaticBody2D" parent="ControlArea"]
+position = Vector2( 800, -380 )
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ControlArea/Up"]
+position = Vector2( 352.5, 393 )
+shape = SubResource( 7 )
+
+[node name="Left" type="StaticBody2D" parent="ControlArea"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ControlArea/Left"]
+position = Vector2( -23, 164.5 )
+shape = SubResource( 6 )
+
+[node name="Right" type="StaticBody2D" parent="ControlArea"]
+position = Vector2( 800, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ControlArea/Right"]
+position = Vector2( 20, 164.5 )
+shape = SubResource( 6 )
+
+[node name="Down" type="StaticBody2D" parent="ControlArea"]
+position = Vector2( 800, 0 )
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ControlArea/Down"]
+position = Vector2( 352.5, 393 )
+shape = SubResource( 7 )
