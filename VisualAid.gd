@@ -23,8 +23,8 @@ func update_aid(new_com : Vector2):
 	
 	new_com -= center
 	
-	print("original:" + str(original_com))
-	print("new:" + str(new_com))
+	#print("original:" + str(original_com))
+	#print("new:" + str(new_com))
 	
 	$COM.rect_position = Vector2(new_com.x * (visual_aid_size.x / axis.x), 
 								 new_com.y * (visual_aid_size.y / axis.y)) + \

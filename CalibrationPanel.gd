@@ -6,12 +6,12 @@ extends ColorRect
 # var b = "text"
 
 signal boat_zero_requested
+signal ready_to_play
 
+var aid : Vector2
 var center : Vector2 = Vector2(0, 0)
 var sensitivity : Vector2
 var wii_balance_board
-
-var _aid : Vector2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -41,16 +41,16 @@ func _on_VerticalSenseSlider_value_changed(value):
 func _on_AidXSlider_value_changed(value):
 	$AidXSlider/Label.text = "Aid X-length: " + str(value)
 	
-	_aid.x = value / 2
+	aid.x = value / 2
 	
-	$VisualAid.axis = _aid
+	$VisualAid.axis = aid
 
 func _on_AidYSlider_value_changed(value):
 	$AidYSlider/Label.text = "Aid Y-length: " + str(value)
 	
-	_aid.y = value / 2
+	aid.y = value / 2
 	
-	$VisualAid.axis = _aid
+	$VisualAid.axis = aid
 
 func _oncenterButton_pressed():
 	center = wii_balance_board.get_com()
@@ -65,3 +65,6 @@ func _on_ResetCenterButton_pressed():
 
 func _on_BoatZeroButton_pressed():
 	emit_signal("boat_zero_requested")
+
+func _on_PlayButton_pressed():
+	emit_signal("ready_to_play")

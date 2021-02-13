@@ -8,9 +8,14 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "GameScene",
+"language": "GDScript",
+"path": "res://GameScene.gd"
+} ]
 _global_script_class_icons={
-
+"GameScene": ""
 }
 
 [application]
@@ -18,6 +23,10 @@ _global_script_class_icons={
 config/name="WaveBoard"
 run/main_scene="res://SetupScene.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+WiiBalanceBoard="*res://WiiBalanceBoard.tscn"
 
 [display]
 

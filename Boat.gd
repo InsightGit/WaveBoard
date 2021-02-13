@@ -7,6 +7,7 @@ var sensitivity : Vector2 = Vector2(10, 10)
 
 var wii_balance_board
 
+var _collided_tiles : Array = []
 var _past_com : Vector2 = Vector2(0, 0)
 var _velocity : Vector2 = Vector2(0, 0)
 
@@ -34,3 +35,27 @@ func zero():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+func _on_Area2D_body_entered(body : TileMap):
+	print("body entered")
+	
+	if body == null:
+		return
+	
+	for x in range(0, $CollisionShape2D.shape.extents.x * 2, 64):
+		for y in range(0, $CollisionShape2D.shape.extents.y * 2, 64):
+			var tile_pos : Vector2 = body.world_to_map(position + Vector2(x, y))
+			
+			var current_tile : int = body.get_cellv(tile_pos)
+			
+			if current_tile == GameScene.BARREL_TILE_ID:
+				print("barrel tile")
+			elif current_tile == GameScene.WAVE_TILE_ID:
+				print("wave tile")
+			else:
+				continue
+			
+			body.set_cellv(tile_pos, GameScene.BLANK_TILE_ID)
+
+func _on_Area2D_body_exited(body):
+	pass # Replace with function body.

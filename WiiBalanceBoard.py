@@ -52,6 +52,7 @@ class WiiBalanceBoard(Control):
 	error = export(str, default="")
 	com = Vector2()
 	
+	_com_mutex = threading.Lock()
 	_response_thread = None
 	_wiiboard_process = None
 	
@@ -65,16 +66,23 @@ class WiiBalanceBoard(Control):
 		
 		self._response_thread.start()
 	
+	def restart(self):
+		print("recreating WiiBalanceBoard response thread")
+		self._response_thread = threading.Thread(target=self.response)
+		
+		self._response_thread.start()
+	
 	def shutdown(self):
 		self._wiiboard_process.kill()
 	
 	def _process(self, delta):
-		label = self.get_node("StatusLabel")
+		#label = self.get_node("StatusLabel")
 		
-		if self.connected:
-			label.text = "Balance board status:\n Connected!"
-		else:
-			label.text = "Balance board status:\n Disconnected."
+		#if self.connected:
+		#	label.text = "Balance board status:\n Connected!"
+		#else:
+		#	label.text = "Balance board status:\n Disconnected."
+		pass
 	
 	def response(self):
 		#self._wiiboard = WiiboardCOM()
@@ -113,8 +121,12 @@ class WiiBalanceBoard(Control):
 			
 			self.connected = True
 			
+			self._com_mutex.acquire()
+			
 			self.com.x = float(data[1])
 			self.com.y = float(data[2])
+			
+			self._com_mutex.release()
 			
 			connected = True
 		
@@ -126,5 +138,11 @@ class WiiBalanceBoard(Control):
 	
 	@export(Vector2)
 	def get_com(self):
+		self._com_mutex.acquire()
+		
+		return_value = self.com
+		
+		self._com_mutex.release()
+		
 		return self.com
 	
