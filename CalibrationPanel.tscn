@@ -2,6 +2,7 @@
 
 [ext_resource path="res://assets/default.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://CalibrationPanel.gd" type="Script" id=2]
+[ext_resource path="res://VisualAid.tscn" type="PackedScene" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 1 )
@@ -12,10 +13,6 @@ font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 15
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 12
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=5]
@@ -39,8 +36,8 @@ margin_right = 235.0
 margin_bottom = 49.0
 min_value = 10.0
 max_value = 1000.0
-step = 0.1
-value = 25.0
+step = 10.0
+value = 400.0
 
 [node name="Label" type="Label" parent="HorizontalSenseSlider"]
 margin_left = 2.0
@@ -50,7 +47,7 @@ margin_bottom = 120.0
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Horizontal Sensitivity Ratio:
-25"
+400"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -63,7 +60,7 @@ margin_bottom = 126.0
 min_value = 10.0
 max_value = 1000.0
 step = 10.0
-value = 30.0
+value = 570.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -76,16 +73,16 @@ margin_bottom = 120.0
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Vertical Sensitivity Ratio:
-25"
+570"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AidYSlider" type="HSlider" parent="."]
 margin_left = 6.247
-margin_top = 150.0
+margin_top = 141.0
 margin_right = 230.247
-margin_bottom = 210.0
+margin_bottom = 201.0
 min_value = 2.0
 max_value = 20.0
 step = 2.0
@@ -108,9 +105,9 @@ __meta__ = {
 
 [node name="AidXSlider" type="HSlider" parent="."]
 margin_left = 6.247
-margin_top = 190.0
+margin_top = 179.0
 margin_right = 230.247
-margin_bottom = 250.0
+margin_bottom = 239.0
 min_value = 2.0
 max_value = 20.0
 step = 2.0
@@ -131,11 +128,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="BoatZeroButton" type="Button" parent="."]
+margin_left = 5.0
+margin_top = 235.0
+margin_right = 227.0
+margin_bottom = 264.0
+custom_fonts/font = SubResource( 4 )
+text = "Zero boat position and velocity"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ResetCenterButton" type="Button" parent="."]
 margin_left = 5.0
-margin_top = 248.0
+margin_top = 266.0
 margin_right = 227.0
-margin_bottom = 277.0
+margin_bottom = 295.0
 custom_fonts/font = SubResource( 4 )
 text = "Reset Center to (0, 0)"
 __meta__ = {
@@ -144,7 +152,7 @@ __meta__ = {
 
 [node name="CenterButton" type="Button" parent="."]
 margin_left = 5.0
-margin_top = 281.0
+margin_top = 297.0
 margin_right = 227.0
 margin_bottom = 326.0
 custom_fonts/font = SubResource( 4 )
@@ -153,77 +161,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VisualAid" type="ColorRect" parent="."]
-margin_left = 8.0
-margin_top = 349.0
-margin_right = 226.0
-margin_bottom = 477.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="COM" type="ColorRect" parent="VisualAid"]
-margin_right = 7.0
-margin_bottom = 7.0
-color = Color( 1, 0, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="XLine2D" type="Line2D" parent="VisualAid"]
-points = PoolVector2Array( 0, 64, 218, 64 )
-width = 1.0
-default_color = Color( 0, 0, 0, 1 )
-
-[node name="YLine2D" type="Line2D" parent="VisualAid"]
-points = PoolVector2Array( 109, 0, 109, 128 )
-width = 1.0
-default_color = Color( 0, 0, 0, 1 )
-
-[node name="YnegLabel" type="Label" parent="VisualAid"]
-margin_left = 101.128
-margin_top = 128.405
-margin_right = 114.128
-margin_bottom = 147.405
-custom_fonts/font = SubResource( 2 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "y:-1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="YposLabel" type="Label" parent="VisualAid"]
-margin_left = 101.723
-margin_top = -21.2078
-margin_right = 114.723
-margin_bottom = -2.20782
-custom_fonts/font = SubResource( 2 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "y:1"
-
-[node name="XnegLabel" type="Label" parent="VisualAid"]
-margin_left = -8.20465
-margin_top = 42.4866
-margin_right = 12.7953
-margin_bottom = 61.4866
-custom_fonts/font = SubResource( 2 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "x:-1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="XposLabel" type="Label" parent="VisualAid"]
-margin_left = 211.975
-margin_top = 43.8502
-margin_right = 232.975
-margin_bottom = 62.8502
-custom_fonts/font = SubResource( 2 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "x:1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="VisualAid" parent="." instance=ExtResource( 3 )]
 
 [node name="PlayButton" type="Button" parent="."]
 margin_left = -192.0
@@ -238,5 +176,6 @@ __meta__ = {
 [connection signal="value_changed" from="VerticalSenseSlider" to="." method="_on_VerticalSenseSlider_value_changed"]
 [connection signal="value_changed" from="AidYSlider" to="." method="_on_AidYSlider_value_changed"]
 [connection signal="value_changed" from="AidXSlider" to="." method="_on_AidXSlider_value_changed"]
+[connection signal="pressed" from="BoatZeroButton" to="." method="_on_BoatZeroButton_pressed"]
 [connection signal="pressed" from="ResetCenterButton" to="." method="_on_ResetCenterButton_pressed"]
 [connection signal="pressed" from="CenterButton" to="." method="_on_CenterButton_pressed"]

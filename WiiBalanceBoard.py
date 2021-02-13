@@ -120,6 +120,10 @@ class WiiBalanceBoard(Control):
 		
 		tcp_socket.close()
 	
+	@export(bool)
+	def on_board(self):
+		return self.com.y != -1
+	
 	@export(Vector2)
 	def get_com(self):
 		return self.com

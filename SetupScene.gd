@@ -22,3 +22,13 @@ func _exit_tree():
 func _process(delta):
 	if $WiiBalanceBoard.connected and $CalibrationPanel.wii_balance_board == null:
 		$CalibrationPanel.wii_balance_board = $WiiBalanceBoard
+		$ColorRect/Boat.wii_balance_board = $WiiBalanceBoard
+		
+		$ColorRect/Boat.center = $CalibrationPanel.center
+		$ColorRect/Boat.sensitivity = $CalibrationPanel.sensitivity
+	elif $CalibrationPanel.wii_balance_board != null:
+		$ColorRect/Boat.center = $CalibrationPanel.center
+		$ColorRect/Boat.sensitivity = $CalibrationPanel.sensitivity
+
+func _on_CalibrationPanel_boat_zero_requested():
+	$ColorRect/Boat.zero()

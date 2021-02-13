@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Boat.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 53.056, 121.149 )
+
+[node name="Boat" type="KinematicBody2D"]
+script = ExtResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_top = 74.0
+margin_right = 105.0
+margin_bottom = 241.0
+color = Color( 1, 0.345098, 0.294118, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Polygon2D" type="Polygon2D" parent="ColorRect"]
+position = Vector2( -0.140047, 2.38477 )
+scale = Vector2( 1.00134, 1.03208 )
+color = Color( 0.29, 0.6095, 1, 1 )
+polygon = PoolVector2Array( -0.193, 0, 104.876, 0, 53.7462, -74.3392 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 53.3936, 119.468 )
+shape = SubResource( 1 )
