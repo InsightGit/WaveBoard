@@ -14,7 +14,7 @@ const TILEMAP_START : Vector2 = Vector2(-7, -4)
 const BARREL_PROBABLITY : float = 0.05
 const WAVE_PROBABLITY : float = 0.10
 const PROGRESS_SPEED : float = 0.5
-const GAME_LENGTH : int = 180 # seconds
+const GAME_LENGTH : int = 20 # seconds
 
 var Barrel = load("res://Barrel.tscn")
 var Wave = load("res://Wave.tscn")
