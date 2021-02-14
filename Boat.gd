@@ -1,5 +1,8 @@
 extends KinematicBody2D
 
+signal barrel_hit
+signal wave_hit
+
 var init_position : Vector2
 
 var center : Vector2 = Vector2(0, 0)
@@ -7,7 +10,6 @@ var sensitivity : Vector2 = Vector2(10, 10)
 
 var wii_balance_board
 
-var _collided_tiles : Array = []
 var _past_com : Vector2 = Vector2(0, 0)
 var _velocity : Vector2 = Vector2(0, 0)
 
@@ -36,33 +38,49 @@ func zero():
 #func _process(delta):
 #	pass
 
-func _on_Area2D_body_entered(body : TileMap):
+func _on_Area2D_body_entered(body):
 	print("body entered")
 	
 	if body == null:
 		return
+	elif body is RigidBody2D:
+		var type : String = body.type()
+		
+		if type == "wave":
+			print("wave")
+			emit_signal("wave_hit")
+		elif type == "barrel":
+			print("barrel")
+			emit_signal("barrel_hit")
+		
+		body.destroy()
 	
-	print("REEEEEEEEEEEEEEEEEE:" + str($CollisionShape2D.shape.extents * 2 * scale))
+	#print("REEEEEEEEEEEEEEEEEE:" + str($CollisionShape2D.shape.extents * 2 * scale))
 	
-	for x in range(0, $CollisionShape2D.shape.extents.x * 2 * scale.x, 64):
-		for y in range(0, $CollisionShape2D.shape.extents.y * 2 * scale.y, 64):
-			var tile_pos : Vector2 = body.world_to_map(global_position)
-			
-			tile_pos += Vector2(x, y) / Vector2(64, 64)
-			tile_pos -= Vector2(3, 0)
-			
-			print(str(tile_pos))
-			
-			var current_tile : int = body.get_cellv(tile_pos)
-			
-			if current_tile == GameScene.BARREL_TILE_ID:
-				print("barrel tile")
-			elif current_tile == GameScene.WAVE_TILE_ID:
-				print("wave tile")
-			else:
-				continue
-			
-			body.set_cellv(tile_pos, GameScene.BLANK_TILE_ID)
+	#for x in range(2):#range(0, $CollisionShape2D.shape.extents.x * 2 * scale.x, 64):
+	#	for y in range(2):#range(0, $CollisionShape2D.shape.extents.y * 2 * scale.y, 64):
+	#		var tile_pos : Vector2 = body.world_to_map(global_position)
+	#		
+	#		tile_pos += Vector2(x, y) / Vector2(64, 64)
+	#		tile_pos -= Vector2(4, 0)
+	#		
+	#		if x == 0 and y == 0:
+	#			$CollisionAid.global_position = body.map_to_world(tile_pos)
+	#		
+	#		print(str(tile_pos))
+	#		
+	#		var current_tile : int = body.get_cellv(tile_pos)
+	#		
+	#		if current_tile == GameScene.BARREL_TILE_ID:
+	#			print("barrel tile")
+	#			#emit_signal("barrel_hit")
+	#		elif current_tile == GameScene.WAVE_TILE_ID:
+	#			print("wave tile")
+	#			#emit_signal("wave_hit")
+	#		else:
+	#			continue
+	#		
+	#		body.set_cellv(tile_pos, GameScene.BLANK_TILE_ID)
 
 func _on_Area2D_body_exited(body):
 	pass # Replace with function body.

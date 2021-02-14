@@ -146,3 +146,7 @@ class WiiBalanceBoard(Control):
 		
 		return self.com
 	
+	@export(bool)
+	def jumped(self):
+		pass
+	
