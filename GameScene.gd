@@ -12,9 +12,9 @@ const TILEMAP_START : Vector2 = Vector2(-7, -4)
 
 # gameplay constants
 const BARREL_PROBABLITY : float = 0.05
-const WAVE_PROBABLITY : float = 0.05
+const WAVE_PROBABLITY : float = 0.10
 const PROGRESS_SPEED : float = 0.5
-const GAME_LENGTH : int = 10 # seconds
+const GAME_LENGTH : int = 180 # seconds
 
 var Barrel = load("res://Barrel.tscn")
 var Wave = load("res://Wave.tscn")
@@ -33,6 +33,7 @@ func start_game(sensitivity : Vector2, center : Vector2, axis : Vector2,
 	$VisualAid.axis = axis
 	
 	$ScoreBoard.start_game_timer(GAME_LENGTH)
+	$AnimationPlayer.play("jump_countdown")
 	
 	_game_started = true
 
@@ -85,10 +86,10 @@ func _spawn_new_obstacles():
 		else:
 			continue
 		
-		obstacle.position = Vector2(-448 + (64 * i), -384)
+		obstacle.position = Vector2(64 * i, -276)
 		obstacle.collision_mask = 0
 		
-		$TileMap.add_child(obstacle)
+		$ControlArea.add_child(obstacle)
 		
 		randomize()
 		obstacle.add_force(Vector2(0, 0), Vector2(randf(), randf()))
@@ -99,6 +100,8 @@ func _spawn_new_obstacles():
 func _process(delta):
 	if _game_started:
 		_delta_time += delta
+		
+		$ScoreBoard.score = $ControlArea/Boat.score
 		
 		if _delta_time >= PROGRESS_SPEED:
 			#_shift_rows()
@@ -117,11 +120,11 @@ func _process(delta):
 					obstacle.destroy() 
 					_obstacles.erase(obstacle)
 
-func _on_Boat_barrel_hit():
-	$ScoreBoard.score -= 10
+#func _on_Boat_barrel_hit():
+#	$ScoreBoard.score -= 10
 
-func _on_Boat_wave_hit():
-	$ScoreBoard.score += 10
+#func _on_Boat_wave_hit():
+#	$ScoreBoard.score += 10
 
 func _on_ScoreBoard_on_game_over():
 	$Results.on_game_over($ScoreBoard.score)
@@ -129,6 +132,20 @@ func _on_ScoreBoard_on_game_over():
 	_game_started = false
 
 func _on_Results_restart_game():
+	$ControlArea/Boat.score = 0
 	$ScoreBoard.score = 0
 	
 	emit_signal("results_restart_game")
+
+func _on_AnimationPlayer_animation_finished(anim_name : String):
+	if anim_name == "jump_countdown":
+		$ControlArea/Boat.accepting_jumps = true
+		
+		$AnimationPlayer.play("jump_period")
+	elif anim_name == "jump_period":
+		$ControlArea/Boat.accepting_jumps = false
+		
+		$AnimationPlayer.play("jump_countdown")
+
+func _on_Boat_jumped():
+	$JumpAid/Label.text = "Great Jump!"

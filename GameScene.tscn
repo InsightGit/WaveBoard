@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://VisualAid.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/wavetile.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Boat.tscn" type="PackedScene" id=7]
 [ext_resource path="res://ScoreBoard.gd" type="Script" id=8]
 [ext_resource path="res://Results.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/default-bold.ttf" type="DynamicFontData" id=10]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 117.525, 90.9733, 12.2878, 90.9733, 12.2878, 0.271744, 117.525, 0.271744 )
@@ -82,11 +83,47 @@ font_data = ExtResource( 6 )
 size = 30
 font_data = ExtResource( 6 )
 
+[sub_resource type="DynamicFont" id=8]
+size = 30
+font_data = ExtResource( 10 )
+
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 28.5, 414 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 23, 164 )
+
+[sub_resource type="Animation" id=9]
+resource_name = "jump_countdown"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("JumpAid/Label:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3, 4, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ "Jump in: 5 ", "Jump in: 4 ", "Jump in: 3", "Jump in: 2", "Jump in: 1", "Jump!!!" ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "jump_period"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("JumpAid/Label:custom_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.6, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 1, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 1, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="GameScene" type="Node2D"]
 script = ExtResource( 5 )
@@ -143,6 +180,28 @@ __meta__ = {
 [node name="Timer" type="Timer" parent="ScoreBoard"]
 one_shot = true
 
+[node name="JumpAid" type="ColorRect" parent="."]
+margin_left = 807.0
+margin_top = 149.0
+margin_right = 1022.0
+margin_bottom = 247.0
+color = Color( 0.704167, 0.29, 1, 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="JumpAid"]
+margin_left = 1.0
+margin_top = -1.0
+margin_right = 214.0
+margin_bottom = 98.0
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Jump in: 5 "
+align = 1
+valign = 1
+
 [node name="ControlArea" type="ColorRect" parent="."]
 margin_top = 276.0
 margin_right = 798.0
@@ -155,7 +214,7 @@ __meta__ = {
 [node name="Boat" parent="ControlArea" instance=ExtResource( 7 )]
 position = Vector2( 374, 100 )
 scale = Vector2( 0.5, 0.5 )
-collision_layer = 2147484673
+collision_layer = 2147484674
 collision_mask = 2147484674
 
 [node name="Up" type="StaticBody2D" parent="ControlArea"]
@@ -201,8 +260,12 @@ margin_left = 350.123
 margin_top = 124.726
 margin_right = 350.123
 margin_bottom = 124.726
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/jump_countdown = SubResource( 9 )
+anims/jump_period = SubResource( 10 )
 [connection signal="on_game_over" from="ScoreBoard" to="." method="_on_ScoreBoard_on_game_over"]
 [connection signal="timeout" from="ScoreBoard/Timer" to="ScoreBoard" method="_on_Timer_timeout"]
-[connection signal="barrel_hit" from="ControlArea/Boat" to="." method="_on_Boat_barrel_hit"]
-[connection signal="wave_hit" from="ControlArea/Boat" to="." method="_on_Boat_wave_hit"]
+[connection signal="jumped" from="ControlArea/Boat" to="." method="_on_Boat_jumped"]
 [connection signal="restart_game" from="Results" to="." method="_on_Results_restart_game"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

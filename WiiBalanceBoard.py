@@ -164,15 +164,14 @@ class WiiBalanceBoard(Control):
 	
 	@export(bool)
 	def jumped(self):
-		#print(self._last_off_board_duration)
-		
 		return_value = \
 			(self.get_com().y != -1) and \
 			 ((time.monotonic() - self._last_off_board_time) < 1.5) and \
 			self._last_off_board_duration < 1.5
 		
-		if return_value:
-			self._last_off_board_time = time.monotonic() - 1.5
+		#if return_value:
+			#self._last_off_board_time = time.monotonic() - 1.5
+			#print("jumped")
 		
 		return return_value
 	

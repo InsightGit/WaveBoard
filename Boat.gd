@@ -1,7 +1,8 @@
 extends KinematicBody2D
 
-signal barrel_hit
-signal wave_hit
+#signal barrel_hit
+#signal wave_hit
+signal jumped
 
 var ExplosionAudio = load("res://assets/Explosion.wav")
 var JumpAudio = load("res://assets/Jump.wav")
@@ -9,10 +10,12 @@ var WaveAudio = load("res://assets/Wave.wav")
 
 var init_position : Vector2
 
+var accepting_jumps : bool = false
 var center : Vector2 = Vector2(0, 0)
 var sensitivity : Vector2 = Vector2(10, 10)
 var invert_x : bool = false
 var invert_y : bool = false
+var score : int = 0
 
 var wii_balance_board
 
@@ -52,6 +55,15 @@ func _physics_process(delta):
 	#$LeftParticles2D.amount = 25 * $LeftParticles2D.speed_scale
 	#$RightParticles2D.amount = 25 * $LeftParticles2D.speed_scale
 	
+	if wii_balance_board != null:
+		if wii_balance_board.jumped() and accepting_jumps:
+			print("JUMPED")
+			score += 5
+			
+			accepting_jumps = false
+			
+			emit_signal("jumped")
+	
 	_velocity = move_and_slide(_velocity)
 
 func zero():
@@ -63,7 +75,7 @@ func zero():
 #	pass
 
 func _on_Area2D_body_entered(body):
-	print("body entered")
+	#print("body entered")
 	
 	if body == null:
 		return
@@ -71,7 +83,7 @@ func _on_Area2D_body_entered(body):
 		var type : String = body.type()
 		
 		if type == "wave":
-			print("wave")
+			#print("wave")
 			
 			if $EffectPlayer.playing:
 				$EffectPlayer.stop()
@@ -79,9 +91,11 @@ func _on_Area2D_body_entered(body):
 			$EffectPlayer.stream = WaveAudio
 			
 			$EffectPlayer.play()
-			emit_signal("wave_hit")
+			score += 10
+			
+			body.destroy()
 		elif type == "barrel":
-			print("barrel")
+			#print("barrel")
 			
 			if $EffectPlayer.playing:
 				$EffectPlayer.stop()
@@ -90,9 +104,9 @@ func _on_Area2D_body_entered(body):
 			
 			$EffectPlayer.play()
 			
-			emit_signal("barrel_hit")
-		
-		body.destroy()
+			score -= 10
+			
+			body.destroy()
 	
 	#for x in range(2):#range(0, $CollisionShape2D.shape.extents.x * 2 * scale.x, 64):
 	#	for y in range(2):#range(0, $CollisionShape2D.shape.extents.y * 2 * scale.y, 64):

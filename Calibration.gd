@@ -34,9 +34,6 @@ func _process(delta):
 		$ColorRect/Boat.sensitivity = $CalibrationPanel.sensitivity
 		$ColorRect/Boat.invert_x = $CalibrationPanel.invert_x
 		$ColorRect/Boat.invert_y = $CalibrationPanel.invert_y
-		
-		if WiiBalanceBoard.jumped():
-			print("jump detected")
 
 func _on_CalibrationPanel_boat_zero_requested():
 	$ColorRect/Boat.zero()
