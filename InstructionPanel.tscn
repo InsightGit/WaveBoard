@@ -297,7 +297,6 @@ __meta__ = {
 }
 
 [node name="TextLabel" type="Label" parent="."]
-visible = false
 margin_left = 4.41577
 margin_top = 180.37
 margin_right = 1009.42
