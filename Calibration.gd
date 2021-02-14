@@ -23,15 +23,20 @@ func _exit_tree():
 func _process(delta):
 	if WiiBalanceBoard.connected and $CalibrationPanel.wii_balance_board == null:
 		$CalibrationPanel.wii_balance_board = WiiBalanceBoard
-		$CalibrationPanel/ConnectionLabel.text = \
-			"Wii Balance Board:\nConnected!"
 		$ColorRect/Boat.wii_balance_board = WiiBalanceBoard
 		
 		$ColorRect/Boat.center = $CalibrationPanel.center
 		$ColorRect/Boat.sensitivity = $CalibrationPanel.sensitivity
+		$ColorRect/Boat.invert_x = $ColorRect/Boat.invert_x
+		$ColorRect/Boat.invert_y = $ColorRect/Boat.invert_y
 	elif $CalibrationPanel.wii_balance_board != null:
 		$ColorRect/Boat.center = $CalibrationPanel.center
 		$ColorRect/Boat.sensitivity = $CalibrationPanel.sensitivity
+		$ColorRect/Boat.invert_x = $CalibrationPanel.invert_x
+		$ColorRect/Boat.invert_y = $CalibrationPanel.invert_y
+		
+		if WiiBalanceBoard.jumped():
+			print("jump detected")
 
 func _on_CalibrationPanel_boat_zero_requested():
 	$ColorRect/Boat.zero()

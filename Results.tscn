@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/default.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Results.gd" type="Script" id=2]
+[ext_resource path="res://default.tres" type="Theme" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 50
@@ -84,6 +85,7 @@ margin_left = 16.0
 margin_top = 261.0
 margin_right = 331.0
 margin_bottom = 345.0
+theme = ExtResource( 3 )
 custom_fonts/font = SubResource( 3 )
 text = "Play Again!"
 __meta__ = {

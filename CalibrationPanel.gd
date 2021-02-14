@@ -11,7 +11,11 @@ signal ready_to_play
 var aid : Vector2
 var center : Vector2 = Vector2(0, 0)
 var sensitivity : Vector2
+var invert_x : bool = false
+var invert_y : bool = false
 var wii_balance_board
+
+var _setup_step : int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,6 +29,7 @@ func _ready():
 func _process(delta):
 	if wii_balance_board != null and wii_balance_board.on_board(): 
 		$VisualAid.update_aid(wii_balance_board.get_com())
+	
 
 func _on_HorizontalSenseSlider_value_changed(value):
 	$HorizontalSenseSlider/Label.text = "Horizontal Sensitivity Ratio:\n" + \
@@ -52,19 +57,33 @@ func _on_AidYSlider_value_changed(value):
 	
 	$VisualAid.axis = aid
 
-func _oncenterButton_pressed():
-	center = wii_balance_board.get_com()
-	
-	$VisualAid.center = center
-	
-	$CenterButton.text = "Center:" + str(center)
-
 func _on_ResetCenterButton_pressed():
 	center = Vector2(0, 0)
 	$CenterButton.text = "Center"
+	
+	$ResetCenterButton.disabled = true
 
 func _on_BoatZeroButton_pressed():
 	emit_signal("boat_zero_requested")
 
 func _on_PlayButton_pressed():
 	emit_signal("ready_to_play")
+
+func _on_CenterButton_pressed():
+	center = wii_balance_board.get_com()
+	
+	$VisualAid.center = center
+	
+	$CenterButton.text = "Center:" + str(center)
+	
+	$ResetCenterButton.disabled = false
+
+func _on_InvertX_toggled(button_pressed : bool):
+	invert_x = button_pressed
+	
+	$VisualAid.invert_x = invert_x
+
+func _on_InvertY_toggled(button_pressed : bool):
+	invert_y = button_pressed
+	
+	$VisualAid.invert_y = invert_y

@@ -155,8 +155,8 @@ __meta__ = {
 [node name="Boat" parent="ControlArea" instance=ExtResource( 7 )]
 position = Vector2( 374, 100 )
 scale = Vector2( 0.5, 0.5 )
-collision_layer = 2147484672
-collision_mask = 2147484672
+collision_layer = 2147484673
+collision_mask = 2147484674
 
 [node name="Up" type="StaticBody2D" parent="ControlArea"]
 position = Vector2( 800, -380 )
@@ -173,7 +173,7 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ControlArea/Left"]
-position = Vector2( -23, 164.5 )
+position = Vector2( 18.7193, 162.379 )
 shape = SubResource( 7 )
 
 [node name="Right" type="StaticBody2D" parent="ControlArea"]

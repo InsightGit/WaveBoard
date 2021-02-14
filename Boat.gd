@@ -3,10 +3,16 @@ extends KinematicBody2D
 signal barrel_hit
 signal wave_hit
 
+var ExplosionAudio = load("res://assets/Explosion.wav")
+var JumpAudio = load("res://assets/Jump.wav")
+var WaveAudio = load("res://assets/Wave.wav")
+
 var init_position : Vector2
 
 var center : Vector2 = Vector2(0, 0)
 var sensitivity : Vector2 = Vector2(10, 10)
+var invert_x : bool = false
+var invert_y : bool = false
 
 var wii_balance_board
 
@@ -21,12 +27,30 @@ func _physics_process(delta):
 	if wii_balance_board != null and wii_balance_board.on_board():
 		var new_com = wii_balance_board.get_com() - center
 		
+		if invert_x:
+			new_com.x = -new_com.x
+		if invert_y:
+			new_com.y = -new_com.y
+		
 		_velocity.x += sensitivity.x * (new_com.x - _past_com.x)
 		_velocity.y += sensitivity.y * (new_com.y - _past_com.y)
 		
 		_past_com = new_com
+		
+		#$LeftParticles2D.speed_scale = 2 * max(0, (_velocity.y + _velocity.x))
+		#$RightParticles2D.speed_scale = 2 * max(0, (_velocity.y - _velocity.x))
 	elif wii_balance_board != null and !wii_balance_board.on_board():
 		_velocity = Vector2(0, 0)
+		
+		#$LeftParticles2D.speed_scale = 2
+		#$RightParticles2D.speed_scale = 2
+	else:
+		pass
+		#$LeftParticles2D.speed_scale = 2
+		#$RightParticles2D.speed_scale = 2
+	
+	#$LeftParticles2D.amount = 25 * $LeftParticles2D.speed_scale
+	#$RightParticles2D.amount = 25 * $LeftParticles2D.speed_scale
 	
 	_velocity = move_and_slide(_velocity)
 
@@ -48,14 +72,27 @@ func _on_Area2D_body_entered(body):
 		
 		if type == "wave":
 			print("wave")
+			
+			if $EffectPlayer.playing:
+				$EffectPlayer.stop()
+			
+			$EffectPlayer.stream = WaveAudio
+			
+			$EffectPlayer.play()
 			emit_signal("wave_hit")
 		elif type == "barrel":
 			print("barrel")
+			
+			if $EffectPlayer.playing:
+				$EffectPlayer.stop()
+			
+			$EffectPlayer.stream = ExplosionAudio
+			
+			$EffectPlayer.play()
+			
 			emit_signal("barrel_hit")
 		
 		body.destroy()
-	
-	#print("REEEEEEEEEEEEEEEEEE:" + str($CollisionShape2D.shape.extents * 2 * scale))
 	
 	#for x in range(2):#range(0, $CollisionShape2D.shape.extents.x * 2 * scale.x, 64):
 	#	for y in range(2):#range(0, $CollisionShape2D.shape.extents.y * 2 * scale.y, 64):

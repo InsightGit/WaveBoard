@@ -38,7 +38,7 @@ N_SAMPLES               = 200
 N_LOOP                  = 10
 T_SLEEP                 = 2
 
-status = "connecting"
+status = "searching"
 board_obj = None
 tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -257,19 +257,18 @@ if __name__ == '__main__':
 	import sys
 	
 	socket_thread_object.start()
-	
+	wiiboards = None
 	if '-d' in sys.argv:
 		sys.argv.remove('-d')
 	if len(sys.argv) > 1:
 		address = sys.argv[1]
 	else:
-		wiiboards = discover()
-		print("Found wiiboards: %s", str(wiiboards))
-		if not wiiboards:
-			while True:
-				pass
-			raise Exception("Press the red sync button on the board")
+		while not wiiboards:
+			wiiboards = discover()
+			print("Found wiiboards: %s", str(wiiboards))
 		address = wiiboards[0]
+		status = "connecting"
+		
 	with WiiboardCOM(address) as wiiprint:
 		board_obj = wiiprint
 		

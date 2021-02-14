@@ -10,11 +10,17 @@ func _ready():
 #	pass
 
 func _on_Calibration_ready_to_play():
+	$InstructionPanel.start_game()
+
+func _on_InstructionPanel_concealed():
 	$Calibration.hide()
 	$GameScene.show()
-	
+
+func _on_InstructionPanel_start_game():
 	print("aid: " + str($Calibration/CalibrationPanel.aid))
 	
 	$GameScene.start_game($Calibration/CalibrationPanel.sensitivity, 
 						  $Calibration/CalibrationPanel.center, 
-						  $Calibration/CalibrationPanel.aid)
+						  $Calibration/CalibrationPanel.aid,
+						  $Calibration/CalibrationPanel.invert_x,
+						  $Calibration/CalibrationPanel.invert_y)

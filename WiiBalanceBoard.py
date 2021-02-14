@@ -49,8 +49,12 @@ import time
 class WiiBalanceBoard(Control):
 	# member variables here, example:
 	connected = export(bool, default=False)
+	connecting = export(bool, default=False)
 	error = export(str, default="")
 	com = Vector2()
+	
+	_last_off_board_time = 0
+	_last_off_board_duration = 0
 	
 	_com_mutex = threading.Lock()
 	_response_thread = None
@@ -115,7 +119,14 @@ class WiiBalanceBoard(Control):
 			data = tcp_socket.recv(1024).decode("ascii").split("_")
 			
 			if len(data) < 3:
-				print("waiting...")
+				assert(len(data) > 1)
+				
+				if data[0] == "connecting":
+					self.connecting = True
+					print("connecting...")
+				else:
+					print("searching...")
+				
 				time.sleep(2)
 				continue
 			
@@ -128,7 +139,12 @@ class WiiBalanceBoard(Control):
 			
 			self._com_mutex.release()
 			
-			connected = True
+			if self.on_board():
+				self._last_off_board_duration = 0
+			else:
+				self._last_off_board_duration += time.monotonic() - \
+												self._last_off_board_time
+				self._last_off_board_time = time.monotonic()
 		
 		tcp_socket.close()
 	
@@ -148,5 +164,15 @@ class WiiBalanceBoard(Control):
 	
 	@export(bool)
 	def jumped(self):
-		pass
+		#print(self._last_off_board_duration)
+		
+		return_value = \
+			(self.get_com().y != -1) and \
+			 ((time.monotonic() - self._last_off_board_time) < 1.5) and \
+			self._last_off_board_duration < 1.5
+		
+		if return_value:
+			self._last_off_board_time = time.monotonic() - 1.5
+		
+		return return_value
 	

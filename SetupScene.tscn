@@ -1,13 +1,14 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://GameScene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://CalibrationPanel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Calibration.gd" type="Script" id=3]
 [ext_resource path="res://Boat.tscn" type="PackedScene" id=4]
 [ext_resource path="res://SetupScene.gd" type="Script" id=5]
+[ext_resource path="res://InstructionPanel.tscn" type="PackedScene" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 40.1403, 341.086 )
+extents = Vector2( 40.1403, 400.507 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 40.1403, 239.14 )
@@ -24,10 +25,10 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="Calibration"]
-margin_left = 97.0
-margin_top = 81.0
-margin_right = 681.0
-margin_bottom = 558.0
+margin_left = -21.0
+margin_top = 170.0
+margin_right = 767.0
+margin_bottom = 606.0
 color = Color( 0.407843, 0.407843, 0.407843, 0.552941 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -35,47 +36,50 @@ __meta__ = {
 
 [node name="Top" type="StaticBody2D" parent="Calibration/ColorRect"]
 position = Vector2( 624, -500 )
-collision_layer = 1024
-collision_mask = 1024
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Calibration/ColorRect/Top"]
-position = Vector2( -302.518, 481.29 )
+position = Vector2( -258.241, 482.385 )
 rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="Right" type="StaticBody2D" parent="Calibration/ColorRect"]
 position = Vector2( 624, 36 )
-collision_layer = 1024
-collision_mask = 1024
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Calibration/ColorRect/Right"]
-position = Vector2( -0.629944, 203.477 )
+position = Vector2( 170.412, 164.337 )
 shape = SubResource( 2 )
 
 [node name="Left" type="StaticBody2D" parent="Calibration/ColorRect"]
 position = Vector2( -40, 36 )
-collision_layer = 1024
-collision_mask = 1024
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Calibration/ColorRect/Left"]
-position = Vector2( 8.81946, 203.548 )
+position = Vector2( 3.76837, 197.374 )
 shape = SubResource( 2 )
 
 [node name="Bottom" type="StaticBody2D" parent="Calibration/ColorRect"]
 position = Vector2( 624, 36 )
-collision_layer = 1024
-collision_mask = 1024
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Calibration/ColorRect/Bottom"]
-position = Vector2( -302.518, 481.29 )
+position = Vector2( -268.933, 434.047 )
 rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="Boat" parent="Calibration/ColorRect" instance=ExtResource( 4 )]
 position = Vector2( 253, 119 )
 scale = Vector2( 0.75, 0.75 )
+collision_layer = 2
+collision_mask = 2
 
 [node name="CalibrationPanel" parent="Calibration" instance=ExtResource( 2 )]
+margin_left = 765.0
 
 [node name="SongDialog" type="FileDialog" parent="Calibration"]
 margin_left = 147.651
@@ -95,6 +99,12 @@ __meta__ = {
 
 [node name="GameScene" parent="." instance=ExtResource( 1 )]
 visible = false
+
+[node name="InstructionPanel" parent="." instance=ExtResource( 6 )]
+rect_scale = Vector2( 0.3, 0.3 )
 [connection signal="ready_to_play" from="Calibration" to="." method="_on_Calibration_ready_to_play"]
-[connection signal="boat_zero_requested" from="Calibration/CalibrationPanel" to="." method="_on_CalibrationPanel_boat_zero_requested"]
+[connection signal="boat_zero_requested" from="Calibration/CalibrationPanel" to="Calibration" method="_on_CalibrationPanel_boat_zero_requested"]
 [connection signal="ready_to_play" from="Calibration/CalibrationPanel" to="Calibration" method="_on_CalibrationPanel_ready_to_play"]
+[connection signal="results_restart_game" from="GameScene" to="." method="_on_Calibration_ready_to_play"]
+[connection signal="concealed" from="InstructionPanel" to="." method="_on_InstructionPanel_concealed"]
+[connection signal="start_game" from="InstructionPanel" to="." method="_on_InstructionPanel_start_game"]

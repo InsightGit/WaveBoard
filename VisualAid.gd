@@ -8,6 +8,9 @@ extends ColorRect
 var axis : Vector2 = Vector2(2, 2)
 var center : Vector2 = Vector2(0, 0)
 
+var invert_x : bool = false
+var invert_y : bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -23,8 +26,15 @@ func update_aid(new_com : Vector2):
 	
 	new_com -= center
 	
+	if invert_x:
+		original_com.x = -original_com.x
+	
+	if invert_y:
+		original_com.y = -original_com.y
+	
 	#print("original:" + str(original_com))
 	#print("new:" + str(new_com))
+
 	
 	$COM.rect_position = Vector2(new_com.x * (visual_aid_size.x / axis.x), 
 								 new_com.y * (visual_aid_size.y / axis.y)) + \

@@ -2,6 +2,8 @@ extends Node2D
 
 class_name GameScene
 
+signal results_restart_game
+
 const BARREL_TILE_ID : int = 0
 const BLANK_TILE_ID : int = 1
 const WAVE_TILE_ID : int = 2
@@ -12,7 +14,7 @@ const TILEMAP_START : Vector2 = Vector2(-7, -4)
 const BARREL_PROBABLITY : float = 0.05
 const WAVE_PROBABLITY : float = 0.05
 const PROGRESS_SPEED : float = 0.5
-const GAME_LENGTH : int = 180 # seconds
+const GAME_LENGTH : int = 10 # seconds
 
 var Barrel = load("res://Barrel.tscn")
 var Wave = load("res://Wave.tscn")
@@ -21,10 +23,13 @@ var _delta_time : float
 var _game_started : bool = false
 var _obstacles : Array = []
 
-func start_game(sensitivity : Vector2, center : Vector2, axis : Vector2):
+func start_game(sensitivity : Vector2, center : Vector2, axis : Vector2, 
+				invert_x : bool, invert_y : bool):
 	$ControlArea/Boat.wii_balance_board = WiiBalanceBoard
 	$ControlArea/Boat.sensitivity = sensitivity
 	$ControlArea/Boat.center = center
+	$ControlArea/Boat.invert_x = invert_x
+	$ControlArea/Boat.invert_y = invert_y
 	$VisualAid.axis = axis
 	
 	$ScoreBoard.start_game_timer(GAME_LENGTH)
@@ -126,6 +131,4 @@ func _on_ScoreBoard_on_game_over():
 func _on_Results_restart_game():
 	$ScoreBoard.score = 0
 	
-	$ScoreBoard.start_game_timer(GAME_LENGTH)
-	
-	_game_started = true
+	emit_signal("results_restart_game")

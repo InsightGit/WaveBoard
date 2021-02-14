@@ -1,0 +1,415 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://InstructionPanel.gd" type="Script" id=1]
+[ext_resource path="res://assets/wavesbg.png" type="Texture" id=2]
+[ext_resource path="res://assets/default-bold.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="Animation" id=10]
+resource_name = "largeize"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.3, 0.3 ), Vector2( 1, 1 ), Vector2( 0.9, 0.9 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "loading"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("LoadingRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.843137, 0.843137, 0.843137, 1 ), Color( 0.682353, 0.682353, 0.682353, 1 ), Color( 0.843137, 0.843137, 0.843137, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("LoadingRect:rect_rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 180.0, 360.0 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "next"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("ActionTriangle:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.1, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 900, 340 ), Vector2( 900, 360 ), Vector2( 900, 340 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "post_game"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("TextureRect:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("GoLabel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("GoLabel:custom_colors/font_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 1, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "smallize"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.3, 0.3 ), Vector2( 0.35, 0.35 ), Vector2( 0.3, 0.3 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "start_game"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("GameRect1:rect_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 200 ), Vector2( 1202, 200 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("GameRect1/Label:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 3.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("GameRect2:rect_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 200 ), Vector2( 0, 200 ), Vector2( 1202, 200 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("TextureRect:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("GameRect2/Label:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 2, 3.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("GameRect3:rect_size")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 200 ), Vector2( 0, 200 ), Vector2( 1202, 200 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("GameRect3/Label:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 3, 3.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("GameRect1:color")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 3, 4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0, 0, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 0, 0, 0 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("GameRect2:color")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 3, 4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0.983333, 0, 1 ), Color( 1, 0.983333, 0, 1 ), Color( 1, 0.984314, 0, 0 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("GameRect3:color")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 3, 4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.478431, 1, 0, 1 ), Color( 0.478431, 1, 0, 1 ), Color( 0.478431, 1, 0, 0 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("TextLabel:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 2.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="DynamicFont" id=1]
+size = 50
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 200
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 200
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 150
+font_data = ExtResource( 3 )
+
+[node name="InstructionPanel" type="Control"]
+margin_right = 1024.0
+margin_bottom = 600.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/largeize = SubResource( 10 )
+anims/loading = SubResource( 3 )
+anims/next = SubResource( 2 )
+anims/post_game = SubResource( 8 )
+anims/smallize = SubResource( 4 )
+anims/start_game = SubResource( 5 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+visible = false
+margin_right = 1024.0
+margin_bottom = 600.0
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextLabel" type="Label" parent="."]
+visible = false
+margin_left = 4.41577
+margin_top = 180.37
+margin_right = 1009.42
+margin_bottom = 369.37
+custom_fonts/font = SubResource( 1 )
+text = "Welcome to WaveBoard! Let's get set up!"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ActionTriangle" type="Polygon2D" parent="."]
+position = Vector2( 900, 345 )
+color = Color( 0.0392157, 0.996078, 0.0352941, 1 )
+polygon = PoolVector2Array( 0, 0, 50, 0, 25.781, 53.289 )
+
+[node name="LoadingRect" type="ColorRect" parent="."]
+visible = false
+margin_left = 504.636
+margin_top = 416.415
+margin_right = 517.636
+margin_bottom = 474.415
+color = Color( 0.843137, 0.843137, 0.843137, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameRect1" type="ColorRect" parent="."]
+margin_bottom = 200.0
+color = Color( 1, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GameRect1"]
+visible = false
+margin_left = 20.0
+margin_top = -70.0
+margin_right = 1025.0
+margin_bottom = 235.0
+custom_fonts/font = SubResource( 6 )
+text = "3"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameRect2" type="ColorRect" parent="."]
+margin_top = 200.0
+margin_bottom = 400.0
+color = Color( 1, 0.983333, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GameRect2"]
+visible = false
+margin_left = 20.0
+margin_top = -67.694
+margin_right = 1025.0
+margin_bottom = 237.306
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 0.733887, 0.733887, 0.733887, 1 )
+text = "2"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameRect3" type="ColorRect" parent="."]
+margin_left = -1.49829
+margin_top = 399.275
+margin_right = -1.49829
+margin_bottom = 599.275
+color = Color( 0.478431, 1, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GameRect3"]
+visible = false
+margin_left = 20.0
+margin_top = -67.694
+margin_right = 1025.0
+margin_bottom = 237.306
+custom_fonts/font = SubResource( 7 )
+text = "1"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GoLabel" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -134.5
+margin_top = -114.5
+margin_right = 134.5
+margin_bottom = 114.5
+custom_fonts/font = SubResource( 9 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Go!"
+uppercase = true
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
